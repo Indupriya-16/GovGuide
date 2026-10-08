@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GovGuide - Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        .container {
+            width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>GovGuide</h1>
+</header>
+
+<div class="container">
+
+    <h2>Create Your Profile</h2>
+
+    <label>Name</label>
+    <input type="text" id="name" required>
+
+    <label>Age</label>
+    <input type="number" id="age" required>
+
+    <label>Qualification</label>
+    <select id="qualification" required>
+        <option value="">Select Qualification</option>
+        <option>10th</option>
+        <option>Intermediate</option>
+        <option>Diploma</option>
+        <option>B.Tech</option>
+        <option>Degree</option>
+        <option>M.Tech</option>
+        <option>Post Graduation</option>
+    </select>
+
+    <label>Branch</label>
+    <input type="text" id="branch" placeholder="Example: ECE" required>
+
+    <label>Percentage / CGPA</label>
+    <input type="text" id="percentage" required>
+
+    <label>State</label>
+    <select id="state" required>
+        <option value="">Select State</option>
+        <option>Andhra Pradesh</option>
+        <option>Telangana</option>
+        <option>Karnataka</option>
+        <option>Tamil Nadu</option>
+        <option>Other</option>
+    </select>
+
+    <label>Category</label>
+    <select id="category" required>
+        <option value="">Select Category</option>
+        <option>General</option>
+        <option>OBC</option>
+        <option>SC</option>
+        <option>ST</option>
+        <option>Other</option>
+    </select>
+
+    <button onclick="saveProfile()">Save Profile</button>
+
+</div>
+
+<script>
+function saveProfile() {
+
+    if (
+        document.getElementById("name").value === "" ||
+        document.getElementById("age").value === "" ||
+        document.getElementById("qualification").value === "" ||
+        document.getElementById("branch").value === "" ||
+        document.getElementById("percentage").value === "" ||
+        document.getElementById("state").value === "" ||
+        document.getElementById("category").value === ""
+    ) {
+        alert("Please fill all the fields.");
+        return;
+    }
+
+    let profile = {   
+            name: document.getElementById("name").value,
+            age: document.getElementById("age").value,
+            qualification: document.getElementById("qualification").value,
+            branch: document.getElementById("branch").value,
+            percentage: document.getElementById("percentage").value,
+            state: document.getElementById("state").value,
+            category: document.getElementById("category").value
+        };
+
+        fetch("http://localhost:5000/profile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(profile)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Could not connect to the server.");
+        });
+    }
+</script>
+
+</body>
+</html>

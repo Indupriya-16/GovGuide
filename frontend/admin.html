@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GovGuide - Admin</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        .container {
+            width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>GovGuide Admin</h1>
+</header>
+
+<div class="container">
+
+    <h2>Add Government Opportunity</h2>
+
+    <label>Opportunity Title</label>
+<input type="text" id="title" placeholder="Example: APPSC Group 1" required>
+<label>Type</label>
+<select id="type" required>
+    <option value="">Select Type</option>
+    <option>Job</option>
+    <option>Exam</option>
+    <option>Scheme</option>
+    <option>Scholarship</option>
+</select>
+<label>Organization</label>
+<input type="text" id="organization" placeholder="Example: APPSC" required>
+<label>Qualification</label>
+<select id="qualification" required>
+    <option value="">Select Qualification</option>
+    <option>10th</option>
+    <option>Intermediate</option>
+    <option>Diploma</option>
+    <option>B.Tech</option>
+    <option>Degree</option>
+    <option>M.Tech</option>
+    <option>Post Graduation</option>
+</select>
+<label>Branch</label>
+<input type="text" id="branch" placeholder="Example: ECE / CSE / Any" required>
+<label>Minimum Age</label>
+<input type="number" id="minAge" placeholder="Example: 18" required>
+<label>Maximum Age</label>
+<input type="number" id="maxAge" placeholder="Example: 30" required>
+<label>State</label>
+<select id="state" required>
+    <option value="">Select State</option>
+    <option>Andhra Pradesh</option>
+    <option>Telangana</option>
+    <option>Karnataka</option>
+    <option>Tamil Nadu</option>
+    <option>Other</option>
+</select>
+<label>Category</label>
+<select id="category" required>
+    <option value="">Select Category</option>
+    <option>General</option>
+    <option>OBC</option>
+    <option>SC</option>
+    <option>ST</option>
+    <option>Other</option>
+</select>
+<label>Last Date</label>
+<input type="date" id="lastDate" required>
+<label>Description</label>
+<textarea id="description" placeholder="Enter details about this opportunity" required></textarea>
+<label>Official Link</label>
+<input type="url" id="officialLink" placeholder="https://example.gov.in" required>
+<button onclick="saveOpportunity()">Save Opportunity</button>
+
+
+</div>
+<script>
+    function saveOpportunity() {
+
+        if (
+            document.getElementById("title").value === "" ||
+            document.getElementById("type").value === "" ||
+            document.getElementById("organization").value === "" ||
+            document.getElementById("qualification").value === "" ||
+            document.getElementById("branch").value === "" ||
+            document.getElementById("minAge").value === "" ||
+            document.getElementById("maxAge").value === "" ||
+            document.getElementById("state").value === "" ||
+            document.getElementById("category").value === "" ||
+            document.getElementById("lastDate").value === "" ||
+            document.getElementById("description").value === "" ||
+            document.getElementById("officialLink").value === ""
+        ) {
+            alert("Please fill all the fields.");
+            return;
+        }
+
+        let opportunity = {
+            title: document.getElementById("title").value,
+            type: document.getElementById("type").value,
+            organization: document.getElementById("organization").value,
+            qualification: document.getElementById("qualification").value,
+            branch: document.getElementById("branch").value,
+            minAge: document.getElementById("minAge").value,
+            maxAge: document.getElementById("maxAge").value,
+            state: document.getElementById("state").value,
+            category: document.getElementById("category").value,
+            lastDate: document.getElementById("lastDate").value,
+            description: document.getElementById("description").value,
+            officialLink: document.getElementById("officialLink").value
+        };
+
+        fetch("http://localhost:5000/opportunity", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(opportunity)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Could not connect to the server.");
+        });
+    }
+</script>
+
+</body>
+</html>
